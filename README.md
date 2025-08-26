@@ -1,5 +1,10 @@
 # Hate Speech Classification (FastAPI + TensorFlow)
 
+<!-- Badges (update repo in URLs after pushing) -->
+![CI](https://img.shields.io/github/actions/workflow/status/USER/REPO/ci.yml?branch=main)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.9%20%7C%203.10-blue)
+
 Hate speech and abusive language detector built with TensorFlow 2.x and served via FastAPI. It provides:
 
 - Offline training pipeline with modular steps (ingestion → transformation → training → evaluation → push)
@@ -86,6 +91,20 @@ requirements.txt
 Dockerfile
 ```
 
+### Pipeline overview
+
+<div>
+	<img alt="Data Ingestion" src="flowcharts/01_Data_Ingestion.png" width="45%"/>
+	<img alt="Data Transformation" src="flowcharts/02_Data_transformation.png" width="45%"/>
+</div>
+<div>
+	<img alt="Model Trainer" src="flowcharts/03_Model_trainer.png" width="45%"/>
+	<img alt="Model Evaluation" src="flowcharts/04_Model_evaluation.png" width="45%"/>
+</div>
+<div>
+	<img alt="Model Pusher" src="flowcharts/05_Model_pusher.png" width="45%"/>
+</div>
+
 ## Development
 
 Run training locally:
@@ -102,7 +121,9 @@ python demo.py
 
 ## CI
 
-This repo includes a basic GitHub Actions workflow to lint and install deps on pushes and PRs.
+This repo includes a basic GitHub Actions workflow to install dependencies and perform a lightweight lint/import check on pushes and PRs.
+
+After pushing to GitHub, update the CI badge at the top of this README by replacing `USER/REPO` with your GitHub `owner/repository`.
 
 ## License
 

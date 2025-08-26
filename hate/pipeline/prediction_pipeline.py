@@ -30,10 +30,15 @@ class PredictionPipeline:
         """
         logging.info("Entered the get_model_from_gcloud method of PredictionPipeline class")
         try:
-            # Loading the best model from s3 bucket
+            # If model already exists locally, reuse it
             os.makedirs(self.model_path, exist_ok=True)
-            self.gcloud.sync_folder_from_gcloud(self.bucket_name, self.model_name, self.model_path)
             best_model_path = os.path.join(self.model_path, self.model_name)
+            if os.path.exists(best_model_path):
+                logging.info("Found existing local model; skipping download")
+                return best_model_path
+
+            # Attempt to sync from GCS
+            self.gcloud.sync_folder_from_gcloud(self.bucket_name, self.model_name, self.model_path)
             logging.info("Exited the get_model_from_gcloud method of PredictionPipeline class")
             return best_model_path
 
@@ -45,8 +50,8 @@ class PredictionPipeline:
         """load image, returns cuda tensor"""
         logging.info("Running the predict function")
         try:
-            best_model_path:str = self.get_model_from_gcloud()
-            load_model=keras.models.load_model(best_model_path)
+            best_model_path: str = self.get_model_from_gcloud()
+            load_model = keras.models.load_model(best_model_path)
             with open('tokenizer.pickle', 'rb') as handle:
                 load_tokenizer = pickle.load(handle)
             
